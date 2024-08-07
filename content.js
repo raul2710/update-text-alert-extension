@@ -9,22 +9,24 @@ const [labelUpdate] = document.querySelectorAll('.inline-flex.items-center.font-
 
 var valueLabel = labelUpdate.textContent;
 
-switch (valueLabel) {
-    case 'Cancelled':
-        beepStart();
-        break;
-
-    case 'Running':
-        
-        break;
-
-    case 'Finished':
-        beepStop();
-        break;
-
-    default:
-        break;
-}
+const checkLabel = setInterval(()=>{
+    switch (valueLabel) {
+        case 'Cancelled':
+            beepStart();
+            break;
+    
+        case 'Running':
+            
+            break;
+    
+        case 'Finished':
+            beepStop();
+            break;
+    
+        default:
+            break;
+    }
+}, 1000);
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
