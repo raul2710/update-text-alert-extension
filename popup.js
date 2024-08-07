@@ -2,10 +2,10 @@
 const btnStopBeep = document.getElementById('btnStopBeep');
 const btnStart = document.getElementById('btnStart');
 
-// const [tab] = await chrome.tabs.query({
-//     active: true,
-//     currentWindow: true
-// })
+const [tab] = await chrome.tabs.query({
+    active: true,
+    currentWindow: true
+})
 
 // let lastLabelText = "";
 
@@ -50,7 +50,7 @@ const btnStart = document.getElementById('btnStart');
 
 
 btnStart.addEventListener('click', async ()=>{
-    await chrome.runtime.sendMessage({ action: 'startBeep' });
+    await chrome.tabs.sendMessage(tab.id, { action: 'startBeep' });
 
     // chrome.scripting.executeScript({
     //   target : {tabId : tab.id},
@@ -60,7 +60,9 @@ btnStart.addEventListener('click', async ()=>{
 })
 
 btnStopBeep.addEventListener('click', async ()=>{
-    await chrome.runtime.sendMessage({ action: 'stopBeep' });
+    await chrome.tabs.sendMessage(tab.id, { action: 'stopBeep' });
+
+
     // chrome.scripting.executeScript({
     //   target : {tabId : tab.id},
     //   function : isUpdate,
