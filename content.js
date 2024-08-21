@@ -1,45 +1,37 @@
-
-var context = new AudioContext();
-var oscillator = context.createOscillator();
 var isBeepStart = 0;
-
-const labelUpdate = document.getElementById('count');
-
+var labelUpdate;
 var valueLabel;
 
-oscillator.type = "sine";
-oscillator.frequency.value = 800;
+var beep = null;
+
+setTimeout(()=>{labelUpdate = document.querySelector('.inline-flex.items-center.font-medium.rounded-md.text-xs'); console.log(labelUpdate);}, 5000);
+
+console.log("\n\nStart\n\n");   
 
 // const [labelUpdate] = document.querySelectorAll('.inline-flex.items-center.font-medium.rounded-md.text-xs');
 // valueLabel = labelUpdate.textContent;
+// beep.play();
+// audio.play().catch(error => console.error("Erro ao tentar tocar o som:", error));
 
 const checkLabel = setInterval(()=>{
-    valueLabel = labelUpdate.value;
+    valueLabel = labelUpdate.textContent;
     console.log(valueLabel);
     switch (valueLabel) {
         case 'Cancelled':
-            beepStart();
+            beepStop();
+            isBeepStart = 2;
             break;
     
-        case 'Running':
-            
+        case 'Assigned':
+            beepStart();
+            isBeepStart = 1;
             break;
     
         case 'Finished':
             beepStop();
-            break;
-
-        case '1':
-            if (isBeepStart != 3) {
-                isBeepStart = 1;
-                beepStart();
-            }
-            break;
-
-        case '3':
             isBeepStart = 2;
             break;
-    
+
         default:
             break;
     }
@@ -53,18 +45,21 @@ chrome.runtime.onMessage.addListener(
             isBeepStart = 3
             beepStop();
         }
-        else if (request.action === "startBeep") {
-            console.log("Start beep");
-            checkLabel;
-        }
+        // else if (request.action === "startBeep") {
+        //     console.log("Start beep");
+        //     beepStart();
+        //     checkLabel;
+        // }
     }
 );
 
 function beepStart(){
-    oscillator.connect(context.destination);
-    oscillator.start();
+    beep = new Audio(chrome.runtime.getURL('beep.mp3'));
+    beep.loop = true;
+    beep.play();
 }
 
 function beepStop(){
-    oscillator.disconnect(context.destination);
+    beep.pause();
+    beep = null;
 }

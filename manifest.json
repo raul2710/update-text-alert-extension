@@ -10,10 +10,25 @@
     "default_popup": "popup.html"
   },
 
+  "icons":{
+    "16": "images/icon_notification_bell-16.png",
+    "32": "images/icon_notification_bell-32.png",
+    "48": "images/icon_notification_bell-48.png",
+    "128": "images/icon_notification_bell-128.png"
+  },
+
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": ["https://dash-viewer.sara.synkar.com/modules/*"],
       "js": ["content.js"]
     }
+  ],
+  
+  "web_accessible_resources": [
+    {
+      "resources": ["beep.mp3"],
+      "matches": ["<all_urls>"]
+    }
   ]
+  
 }
