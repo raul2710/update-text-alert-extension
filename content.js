@@ -50,7 +50,7 @@ chrome.runtime.onMessage.addListener(
                     default:
                         break;
                 }
-            }, 5000);
+            }, 1);
         }
     }
 );
