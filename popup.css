@@ -1,1 +1,27 @@
 
+.containerButtons {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+button {
+    border-radius: 5px;
+    border: none;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+#btnStartAlert{
+    background-color: greenyellow;
+}
+
+#btnStopAlert{
+    background-color: rgb(177, 48, 48);
+}
+
+#btnStopBeep{
+    background-color: rgb(158, 177, 48);
+}

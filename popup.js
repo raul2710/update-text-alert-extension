@@ -1,16 +1,23 @@
 
 const btnStopBeep = document.getElementById('btnStopBeep');
-const btnStart = document.getElementById('btnStart');
+const btnStartAlert = document.getElementById('btnStartAlert');
+const btnStopAlert = document.getElementById('btnStopAlert');
 
 const [tab] = await chrome.tabs.query({
     active: true,
     currentWindow: true
 })
 
-btnStart.addEventListener('click', async ()=>{
-    await chrome.tabs.sendMessage(tab.id, { action: 'startBeep' });
+btnStartAlert.addEventListener('click', async ()=>{
+    await chrome.tabs.sendMessage(tab.id, { action: 'startAlert' });
+})
+
+btnStopAlert.addEventListener('click', async ()=>{
+    await chrome.tabs.sendMessage(tab.id, { action: 'stopAlert' });
 })
 
 btnStopBeep.addEventListener('click', async ()=>{
     await chrome.tabs.sendMessage(tab.id, { action: 'stopBeep' });
 })
+
+

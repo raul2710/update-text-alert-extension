@@ -1,62 +1,67 @@
 var isBeepStart = 0;
 var labelUpdate;
-var valueLabel;
+let valueLabel;
+let beep = null;
 
-var beep = null;
+console.log("\n\nStart Extension\n\n");   
 
-setTimeout(()=>{labelUpdate = document.querySelector('.inline-flex.items-center.font-medium.rounded-md.text-xs'); console.log(labelUpdate);}, 5000);
-
-console.log("\n\nStart\n\n");   
+let checkLabel = null;
 
 // const [labelUpdate] = document.querySelectorAll('.inline-flex.items-center.font-medium.rounded-md.text-xs');
 // valueLabel = labelUpdate.textContent;
 // beep.play();
 // audio.play().catch(error => console.error("Erro ao tentar tocar o som:", error));
 
-const checkLabel = setInterval(()=>{
-    valueLabel = labelUpdate.textContent;
-    console.log(valueLabel);
-    switch (valueLabel) {
-        case 'Cancelled':
-            beepStop();
-            isBeepStart = 2;
-            break;
-    
-        case 'Assigned':
-            beepStart();
-            isBeepStart = 1;
-            break;
-    
-        case 'Finished':
-            beepStop();
-            isBeepStart = 2;
-            break;
-
-        default:
-            break;
-    }
-}, 1000);
-
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-
         if (request.action === "stopBeep"){
-            console.log("Stop beep");
-            isBeepStart = 3
+            console.log("Stop Beep");
             beepStop();
         }
-        // else if (request.action === "startBeep") {
-        //     console.log("Start beep");
-        //     beepStart();
-        //     checkLabel;
-        // }
+        else if (request.action === "stopAlert"){
+            console.log("Stop Alert");
+            alert("Stop Alert");
+            isBeepStart = 0;
+            checkLabel = null;
+            beepStop();
+        }
+        else if (request.action === "startAlert") {
+            setTimeout(()=>{labelUpdate = document.querySelector('.inline-flex.items-center.font-medium.rounded-md.text-xs'); console.log(labelUpdate);}, 5000);
+
+            console.log("Start Alert");
+            alert("Start Alert");
+
+            checkLabel = setInterval(()=>{
+                valueLabel = labelUpdate.textContent;
+                console.log(valueLabel);
+                switch (valueLabel) {
+                    // case 'Cancelled':
+                    //     beepStart();
+                    //     break;
+                
+                    case 'Assigned':
+                        beepStart();
+                        break;
+
+                    // case 'Finished':
+                    //     beepStart();
+                    //     break;
+
+                    default:
+                        break;
+                }
+            }, 5000);
+        }
     }
 );
 
 function beepStart(){
-    beep = new Audio(chrome.runtime.getURL('beep.mp3'));
-    beep.loop = true;
-    beep.play();
+    if (!beep) {
+        beep = new Audio(chrome.runtime.getURL('beep.mp3'));
+        beep.play();
+    } else if (beep.paused) {
+        beep.play();
+    }
 }
 
 function beepStop(){
