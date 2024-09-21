@@ -14,7 +14,14 @@ let checkLabel = null;
 
 chrome.runtime.onMessage.addListener(
     function(request, sender, sendResponse) {
-        if (request.action === "stopBeep"){
+        if (request.action === "isRunning"){
+            if (checkLabel) {
+                sendResponse({status:"on"});
+            } else{
+                sendResponse({status:"off"});
+            }
+        }
+        else if (request.action === "stopBeep"){
             console.log("Stop Beep");
             beepStop();
         }
