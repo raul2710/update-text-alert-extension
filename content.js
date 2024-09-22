@@ -1,5 +1,4 @@
-var isBeepStart = 0;
-var labelUpdate;
+let labelUpdate;
 let valueLabel;
 let beep = null;
 
@@ -28,14 +27,16 @@ chrome.runtime.onMessage.addListener(
         else if (request.action === "stopAlert"){
             console.log("Stop Alert");
             alert("Stop Alert");
-            isBeepStart = 0;
+            clearInterval(checkLabel);
             checkLabel = null;
+            console.log(checkLabel);
             beepStop();
         }
         else if (request.action === "startAlert") {
-            setTimeout(()=>{labelUpdate = document.querySelector('.inline-flex.items-center.font-medium.rounded-md.text-xs'); console.log(labelUpdate);}, 5000);
+            setTimeout(()=>{labelUpdate = document.querySelector('span.inline-flex.items-center.font-medium.rounded-md.text-xs');}, 5000);
 
             console.log("Start Alert");
+            console.log(labelUpdate);
             alert("Start Alert");
 
             checkLabel = setInterval(()=>{
@@ -51,6 +52,9 @@ chrome.runtime.onMessage.addListener(
                         break;
 
                     // case 'Finished':
+                    //     beepStart();
+                    //     break;
+                    // case 'Running':
                     //     beepStart();
                     //     break;
 
